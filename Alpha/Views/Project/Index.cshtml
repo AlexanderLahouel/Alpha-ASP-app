@@ -1,0 +1,169 @@
+﻿@model List<Alpha.Models.ProjectModel>
+
+@{
+    Layout = "_PortalLayout";
+    ViewData["Title"] = "Projects";
+
+    string currentStatus = Context.Request.Query["status"].ToString() ?? "";
+    int total = Model.Count;
+    int started = Model.Count(p => p.Status.ToString() == "Started");
+    int completed = Model.Count(p => p.Status.ToString() == "Completed");
+}
+
+<div class="header-flex">
+    <h2>Projects</h2>
+    <button class="btn btn-blue" data-modal="true" data-target="#addProjectModal">
+        <i id="plus-sign" class="fa-solid fa-plus"></i> Add Project
+    </button>
+</div>
+
+<div class="project-status">
+    <a href="/Project/Index" class="@(string.IsNullOrEmpty(currentStatus) ? "active" : "")">ALL [@total]</a>
+    <a href="/Project/Index?status=Started" class="@(currentStatus == "Started" ? "active" : "")">STARTED [@started]</a>
+    <a href="/Project/Index?status=Completed" class="@(currentStatus == "Completed" ? "active" : "")">COMPLETED [@completed]</a>
+</div>
+
+<div class="project-grid">
+    @if (Model != null && Model.Any())
+    {
+        foreach (var project in Model)
+        {
+            <div class="project-card">
+                <div class="project-card-header">
+                    <img id="project-icon" src="~/images/Projectimage.svg" alt="project-icon" />
+
+                    <div class="project-card-header-flex">
+                        <h6>@project.ProjectName</h6>
+                        <p>@project.ClientName</p>
+                    </div>
+
+                    <div class="more-icon">
+                        <button type="button" class="btn-more" data-project-id="@project.Id">
+                            <img src="~/images/more.svg" alt="more" />
+                        </button>
+                        <div class="dropdown-menu" id="dropdown-@project.Id">
+                            <a href="/Project/EditModal/@project.Id" class="dropdown-item open-edit-modal">
+                                <i class="bi bi-pencil-fill"></i> Edit
+                            </a>
+                            <form method="post" asp-action="Delete" asp-controller="Project" asp-route-id="@project.Id" onsubmit="return confirm('Are you sure?');">
+                                <button type="submit" class="dropdown-item delete">
+                                    <i class="bi bi-trash-fill"></i> Delete Project
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="project-card-body">
+                    <div>@Html.Raw(project.Description)</div>
+                </div>
+
+                <div class="project-card-footer">
+                    @if (project.Status == ProjectStatus.Completed) 
+                    {
+                        <div class="status-completed">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Completed</span>
+                        </div>
+                    }
+                    else
+                    {
+                        string timeLeftText = "";
+
+                        if (project.EndDate.HasValue)
+                        {
+                            var daysLeft = (project.EndDate.Value - DateTime.Today).Days;
+
+                            if (daysLeft < 0)
+                            {
+                                timeLeftText = "Overdue";
+                            }
+                            else if (daysLeft == 0)
+                            {
+                                timeLeftText = "Due today";
+                            }
+                            else if (daysLeft <= 7)
+                            {
+                                timeLeftText = $"{daysLeft} day{(daysLeft == 1 ? "" : "s")} left";
+                            }
+                            else
+                            {
+                                int weeks = daysLeft / 7;
+                                timeLeftText = $"{weeks} week{(weeks == 1 ? "" : "s")} left";
+                            }
+                        }
+                        else
+                        {
+                            timeLeftText = "No deadline";
+                        }
+
+                        <div class="time-left">
+                            <i class="bi bi-clock"></i>
+                            <span>@timeLeftText</span>
+                        </div>
+                    }
+                </div>
+
+
+
+
+            </div>
+        }
+    }
+    else
+    {
+        <p>No projects found.</p>
+    }
+</div>
+
+
+    <!-- Edit Modal Target -->
+    <div id="editProjectModalContainer"></div>
+
+    <!-- Add Modal Partial -->
+<partial name="_AddProjectModal" model="new Alpha.Models.ProjectModel()" />
+
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Handle opening the edit modal
+            document.querySelectorAll(".open-edit-modal").forEach(btn => {
+                btn.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const url = btn.getAttribute("href");
+
+                    fetch(url)
+                        .then(response => response.text())
+                        .then(html => {
+                            const container = document.getElementById("editProjectModalContainer");
+                            container.innerHTML = html;
+
+                            // Make sure the modal is visible
+                            const modal = container.querySelector(".modal");
+                            if (modal) {
+                                modal.style.display = "flex";
+
+                                // ✅ Attach close event
+                                modal.querySelectorAll('[data-close="true"]').forEach(closeBtn => {
+                                    closeBtn.addEventListener("click", () => {
+                                        modal.style.display = "none";
+                                    });
+                                });
+
+                                // ✅ Initialize Quill for edit modal
+                                const initialDescription = modal.querySelector('input[name="Description"]').value;
+                                initializeQuill("quill-editor-edit", "Description", initialDescription);
+                            }
+                        });
+                });
+            });
+        });
+    </script>
+}
+
+
+
+
+

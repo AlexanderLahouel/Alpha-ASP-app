@@ -1,0 +1,83 @@
+﻿@model Alpha.Models.ProjectModel
+
+<div class="modal" id="editProjectModal" style="display: none;">
+    <div class="modal-content">
+        <form asp-action="Edit" asp-controller="Project" method="post" class="modal-form">
+
+            <input asp-for="Id" type="hidden" />
+
+            <!-- Header -->
+            <div class="modal-header">
+                <h3>Edit Project</h3>
+                <button type="button" class="close-btn" data-close="true">
+                    <i class="fa-solid fa-x"></i>
+                </button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body">
+                <div class="image-container">
+                    <img id="projectimage" src="~/images/Projectimage.svg" alt="ProjectImage" />
+                </div>
+
+                <div class="form-input-group">
+                    <label asp-for="ProjectName">Project Name</label>
+                    <input asp-for="ProjectName" class="input-field" placeholder="Project Name" />
+                    <span asp-validation-for="ProjectName" class="text-danger small"></span>
+                </div>
+
+                <div class="form-input-group">
+                    <label asp-for="ClientName">Client Name</label>
+                    <input asp-for="ClientName" class="input-field" placeholder="Client Name" />
+                    <span asp-validation-for="ClientName" class="text-danger small"></span>
+                </div>
+
+                <div class="form-input-group">
+                    <label asp-for="Description"></label>
+                    <input type="hidden" asp-for="Description" />
+                        <div class="quill-container">
+                            <div id="quill-editor-edit" class="text-area quill-container"></div>                        
+                        </div>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+
+                <div class="date-flex">
+                    <div class="form-input-group">
+                        <label asp-for="StartDate">Start Date</label>
+                        <input asp-for="StartDate" id="datepicker" class="input-field" type="date" />
+                        <span asp-validation-for="StartDate" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-input-group">
+                        <label asp-for="EndDate">End Date</label>
+                        <input asp-for="EndDate" id="datepicker" class="input-field" type="date" />
+                        <span asp-validation-for="EndDate" class="text-danger small"></span>
+                    </div>
+                </div>
+
+                <div class="form-input-group">
+                    <label asp-for="Budget"></label>
+                    <input asp-for="Budget" class="input-field budget-input" placeholder="$ 0" />
+                    <span asp-validation-for="Budget" class="text-danger small"></span>
+                </div>
+
+                <div class="form-input-group">
+                    <label asp-for="Status"></label>
+                    <select asp-for="Status" class="input-field">
+                        <option value="NotStarted">Not started</option>
+                        <option value="Started">Started</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button type="submit" id="createprojectbtn" class="btn-blue btn-submit">Save</button>
+            </div>
+
+        </form>
+    </div>
+</div>
