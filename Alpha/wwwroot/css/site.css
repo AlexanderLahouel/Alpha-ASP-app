@@ -326,14 +326,13 @@ h6 {
     z-index: 1000;
     justify-content: center;
     align-items: center;
-    height: 100dvh;
 }
 
 @media (min-height: 1100px) {
    
     .modal-content
     {
-        max-height: 90dvh;
+ 
         margin-top: auto;
         margin-bottom: auto;
     }
@@ -344,7 +343,6 @@ h6 {
     .modal-content {
         width: 100%;
         max-width: 550px;
-        height: 100dvh;
         background-color: var(--white-100);
         border-radius: 16px;
         box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
@@ -398,7 +396,7 @@ h6 {
         border-radius: 14px;
         border: 1px solid var(--gray-100);
         padding: 0.4rem 1rem;
-        height: 48px;
+        height: 3rem;
     }
 
     .image-container {
@@ -406,19 +404,23 @@ h6 {
         justify-content: center;
     }
 
-   
 
 
+#quill-editor-add {
+    height: 120px;
+    overflow-y: auto;
+}
 
-    .quill-container {
-        display: flex;
-        flex-direction: column-reverse;
-        border: 1px solid var(--border-color);
-        border-radius: 14px 14px 0 0;
-        flex-grow: 1;
-        height: 200px;
-        overflow: hidden;
-    }
+.quill-container {
+    display: flex;
+    flex-direction: column-reverse;
+    border: 1px solid var(--border-color);
+    border-radius: 14px 14px 0 0;
+    flex-grow: 1;
+    height: 160px;
+    overflow: hidden;
+    box-shadow: none;
+}
 
 
         .quill-container .ql-editor {
