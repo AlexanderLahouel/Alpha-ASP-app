@@ -3,6 +3,8 @@ using Alpha.Models.ViewModels;
 using Alpha.Models;
 using Microsoft.AspNetCore.Identity;
 
+//Saker gick fel så bad chatgpt att rätta min kod.
+
 namespace Alpha.Controllers
 {
     public class AccountController : Controller
@@ -24,11 +26,11 @@ namespace Alpha.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            Console.WriteLine("📩 Register form submitted");
+            Console.WriteLine(" Register form submitted");
 
             if (ModelState.IsValid)
             {
-                Console.WriteLine("✅ Model is valid");
+                Console.WriteLine("Model is valid");
 
                 var user = new ApplicationUser
                 {
@@ -41,12 +43,12 @@ namespace Alpha.Controllers
 
                 if (result.Succeeded)
                 {
-                    Console.WriteLine("🎉 User created successfully");
+                    Console.WriteLine("User created");
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Project");
                 }
 
-                Console.WriteLine("❌ Failed to create user:");
+                Console.WriteLine("Failed to create user:");
                 foreach (var error in result.Errors)
                 {
                     Console.WriteLine($"⚠️ {error.Description}");
@@ -55,7 +57,7 @@ namespace Alpha.Controllers
             }
             else
             {
-                Console.WriteLine("❌ Model is invalid");
+                Console.WriteLine("Model is invalid");
             }
 
             return View(model);

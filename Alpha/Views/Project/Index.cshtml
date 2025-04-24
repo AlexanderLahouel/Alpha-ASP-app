@@ -102,6 +102,8 @@
                             <i class="bi bi-clock"></i>
                             <span>@timeLeftText</span>
                         </div>
+
+                        //Chatgpt hjälpte mig här.
                     }
                 </div>
 
@@ -127,8 +129,7 @@
 
 @section Scripts {
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Handle opening the edit modal
+        document.addEventListener("DOMContentLoaded", function () {          
             document.querySelectorAll(".open-edit-modal").forEach(btn => {
                 btn.addEventListener("click", function (e) {
                     e.preventDefault();
@@ -140,19 +141,18 @@
                             const container = document.getElementById("editProjectModalContainer");
                             container.innerHTML = html;
 
-                            // Make sure the modal is visible
+                          
                             const modal = container.querySelector(".modal");
                             if (modal) {
                                 modal.style.display = "flex";
 
-                                // ✅ Attach close event
                                 modal.querySelectorAll('[data-close="true"]').forEach(closeBtn => {
                                     closeBtn.addEventListener("click", () => {
                                         modal.style.display = "none";
                                     });
                                 });
 
-                                // ✅ Initialize Quill for edit modal
+                                // Initialize Quill for edit modal
                                 const initialDescription = modal.querySelector('input[name="Description"]').value;
                                 initializeQuill("quill-editor-edit", "Description", initialDescription);
                             }

@@ -278,7 +278,7 @@ h6 {
 
 .btn-submit {
     width: 100%;
-    height: 48px;
+    height: 2.5rem;
     border-radius: 14px;
     border: none;
     box-shadow: 0px 4px 16px rgba(0, 129, 255, 0.18);
@@ -313,8 +313,9 @@ h6 {
     align-items: center;
 
 }
-
-
+    .btn-more.active {
+        background-color: var(--gray-100);
+    }
 
 /* modal */
 
@@ -387,6 +388,7 @@ h6 {
         padding: 0.3rem;
         flex: 0 1 auto;
     }
+    
 
         .form-input-group label {
             font-weight: var(--font-semibold);
@@ -396,19 +398,28 @@ h6 {
         border-radius: 14px;
         border: 1px solid var(--gray-100);
         padding: 0.4rem 1rem;
-        height: 3rem;
+        height: 2.5rem;
     }
 
     .image-container {
         display: flex;
         justify-content: center;
+
+    }
+
+    #projectimage {
+        width: 120px;
+        height: 120px;
     }
 
 
 
 #quill-editor-add {
-    height: 120px;
-    overflow-y: auto;
+    flex-direction: column;
+}
+
+#quill-editor-edit { 
+    flex-direction: column;
 }
 
 .quill-container {
@@ -417,14 +428,13 @@ h6 {
     border: 1px solid var(--border-color);
     border-radius: 14px 14px 0 0;
     flex-grow: 1;
-    height: 160px;
     overflow: hidden;
     box-shadow: none;
 }
 
 
         .quill-container .ql-editor {
-            min-height: 150px;
+            min-height: 110px;
         }
 
     .ql-toolbar {
@@ -437,16 +447,6 @@ h6 {
 
 
 
-
-
-
-
-
-
-
-    /* sections */
-
-    /* views/pages */
     .date-flex {
         display: flex;
         align-items: center;
@@ -457,14 +457,6 @@ h6 {
         width: 200px;
     }
     /* forms */
-
-
-
-
-
-
-
-
 
     .terms {
         padding: 0.8rem;
@@ -591,6 +583,16 @@ h6 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 20px;
+}
+
+@media (min-width: 2000px) {
+    .project-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+    }
+
+  
 }
 
     .project-card {

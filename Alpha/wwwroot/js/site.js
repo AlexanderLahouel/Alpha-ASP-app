@@ -64,7 +64,7 @@
 
             if (!isOpen) {
                 dropdown.classList.add("show");
-                console.log("🔥 Opened dropdown");
+   
 
                 //Prevent immediate close from outside click
                 ignoreClick = true;
@@ -103,17 +103,17 @@
         button.addEventListener("click", function (e) {
             e.stopPropagation();
 
-            // Close all open dropdowns first
+            // Close all other dropdowns
             document.querySelectorAll(".dropdown-menu.show").forEach(menu => {
-                if (!menu.closest(".more-icon")?.contains(e.target)) {
-                    menu.classList.remove("show");
-                }
+                menu.classList.remove("show");
+                menu.closest(".more-icon")?.querySelector(".btn-more")?.classList.remove("active");
             });
 
             const id = button.getAttribute("data-project-id");
             const dropdown = document.getElementById(`dropdown-${id}`);
             if (dropdown) {
-                dropdown.classList.toggle("show");
+                const isOpen = dropdown.classList.toggle("show");
+                button.classList.toggle("active", isOpen); 
             }
         });
     });
@@ -122,6 +122,12 @@
     document.addEventListener("click", () => {
         document.querySelectorAll(".dropdown-menu.show").forEach(menu => {
             menu.classList.remove("show");
+
+            
+            const button = menu.closest(".more-icon")?.querySelector(".btn-more");
+            if (button) {
+                button.classList.remove("active");
+            }
         });
     });
 
@@ -132,6 +138,8 @@
 
 });
 
+
+//Chatgpt genererad kod för att få min quill att fungera
     function initializeQuill(editorId, hiddenFieldName, initialContent = '') {
         const quill = new Quill(`#${editorId}`, {
             theme: 'snow',
@@ -151,7 +159,6 @@
             quill.root.innerHTML = initialContent;
         }
 
-        // Update hidden input on form submit
         const form = document.querySelector(`#${editorId}`).closest('form');
         if (form) {
             form.addEventListener('submit', () => {
